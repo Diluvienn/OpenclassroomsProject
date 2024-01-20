@@ -2,8 +2,6 @@ import requests
 from bs4 import BeautifulSoup
 
 
-
-
 def extract_url(url):
     response = requests.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
@@ -92,10 +90,16 @@ def extract_book_data(url):
         "image_url": image_url
     }
 
-
     return book_data
 
-
+def extract_links_from_page(soup):
+    links_book = []
+    all_h3 = soup.find_all('h3')
+    for h3 in all_h3:
+        a = h3.find('a')
+        link_book = a['href'].replace('../../..', 'https://books.toscrape.com/catalogue')
+        links_book.append(link_book)
+    return links_book
 
 # if __name__ == "__main__":
 #     # Tester la fonction avec l'URL spécifiée
