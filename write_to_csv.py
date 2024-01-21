@@ -1,6 +1,8 @@
 import csv
 from datetime import datetime
-from extract import extract_book_data
+from extract import extract_book_data, extract_img_url, titles, image_urls
+import requests
+import os
 
 timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
 
@@ -15,7 +17,54 @@ headers = ["product_page_url",
            "review_rating",
            "image_url"]
 
+
+def download_image(titles, image_urls, category_name):
+    """
+        Downloads and saves images for a given category.
+
+        Parameters:
+        - titles (list): List of book titles.
+        - image_urls (list): List of image URLs corresponding to the titles.
+        - category_name (str): The name of the book category.
+
+        Returns:
+        None
+        """
+    main_folder_path = os.path.join("Book illustrations")
+
+    if not os.path.exists(main_folder_path):
+        os.makedirs(main_folder_path)
+
+    category_folder_path = os.path.join(main_folder_path, f"Illustrations_{category_name}")
+    if not os.path.exists(category_folder_path):
+        os.makedirs(category_folder_path)
+
+    try:
+        for title, img_url in zip(titles, image_urls):
+            title = title.replace(":", " ")
+            destination_path = os.path.join(category_folder_path, f"{title}_{timestamp}.jpg")
+            response = requests.get(img_url, stream=True)
+            response.raise_for_status()
+            with open(destination_path, "wb") as file:
+                for chunk in response.iter_content(chunk_size=4096):
+                    file.write(chunk)
+                print(f"Image téléchargée avec succès : {destination_path}")
+    except Exception as e:
+        print(f"Erreur lors du téléchargement de l'image pour {title}: {e}")
+
+
 def create_csv_for_category(category_link, category_name, links_book):
+    """
+        Writes the information of books to a CSV file.
+
+        Parameters:
+        - category_link (str): The URL of the book category.
+        - category_name (str): The name of the book category.
+        - links_book (list): List of links to the books in the category.
+
+        Returns:
+        None
+        """
     # Créer un fichier CSV pour la catégorie
     csv_file_path = f"{category_name}_data_{timestamp}.csv"
 
@@ -27,14 +76,14 @@ def create_csv_for_category(category_link, category_name, links_book):
 
 def write_to_csv(file_path, book_data):
     """
-       Écrit les informations d'un livre dans un fichier CSV.
+    Writes book information to a CSV file.
 
-       Parameters:
-       - file_path (str): Le chemin du fichier CSV.
-       - book_data (dict): Un dictionnaire contenant les informations du livre.
+        Parameters:
+        - file_path (str): The path to the CSV file.
+        - book_data (dict): A dictionary containing the book information.
 
-       Returns:
-       None
+        Returns:
+        None
        """
     with open(file_path, 'a', newline='', encoding='utf-8') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=headers)
@@ -66,3 +115,8 @@ if __name__ == "__main__":
     # csv_file_path = "output.csv"
     # url_to_extract = "http://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html"
     # write_to_csv(csv_file_path, url_to_extract)
+
+    destination_path = "img_test.jpg"
+    url = "http://books.toscrape.com/media/cache/f1/78/f17805e88aed31aae352ab250b2a379d.jpg"
+    download_image(url)
+    print(f"l'image a été enregistrée dans {destination_path}.")
