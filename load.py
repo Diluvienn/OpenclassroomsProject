@@ -13,7 +13,7 @@ Functions:
 
 import csv
 from datetime import datetime
-from extract import extract_book_data, extract_img_url, titles, image_urls
+from extract import extract_book_data
 import requests
 import os
 
@@ -43,7 +43,7 @@ def download_image(titles, image_urls, category_name):
         Returns:
         None
         """
-    main_folder_path = os.path.join("Book illustrations")
+    main_folder_path = os.path.join("images_output")
 
     if not os.path.exists(main_folder_path):
         os.makedirs(main_folder_path)
@@ -67,7 +67,7 @@ def download_image(titles, image_urls, category_name):
 
 
 
-def create_csv_for_category(category_link, category_name, links_book):
+def create_csv_for_category(category_name, links_book):
     """
         Writes the information of books to a CSV file.
 
@@ -79,8 +79,13 @@ def create_csv_for_category(category_link, category_name, links_book):
         Returns:
         None
         """
+    # Créer un dossier pour les CSV
+    main_folder_path = os.path.join("csv_output")
+    if not os.path.exists(main_folder_path):
+        os.makedirs(main_folder_path)
+
     # Créer un fichier CSV pour la catégorie
-    csv_file_path = f"{category_name}_data_{timestamp}.csv"
+    csv_file_path = os.path.join(main_folder_path, f"{category_name}_data_{timestamp}.csv")
 
     # Itérer sur les liens des livres et extraire les données
     for link_book in links_book:
@@ -99,6 +104,9 @@ def write_to_csv(file_path, book_data):
         Returns:
         None
        """
+
+
+
     with open(file_path, 'a', newline='', encoding='utf-8') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=headers)
         if csvfile.tell() == 0:
