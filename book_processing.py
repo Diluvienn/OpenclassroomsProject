@@ -1,3 +1,16 @@
+"""
+Module write_to_csv
+
+This module provides functions for downloading images and writing book information to CSV files.
+
+
+Functions:
+- download_image(titles, image_urls, category_name): Downloads and saves images for a given category.
+- create_csv_for_category(category_link, category_name, links_book): Writes book information to a CSV file.
+- write_to_csv(file_path, book_data): Writes book information to a CSV file.
+
+"""
+
 import csv
 from datetime import datetime
 from extract import extract_book_data, extract_img_url, titles, image_urls
@@ -39,18 +52,19 @@ def download_image(titles, image_urls, category_name):
     if not os.path.exists(category_folder_path):
         os.makedirs(category_folder_path)
 
-    try:
         for title, img_url in zip(titles, image_urls):
-            title = title.replace(":", " ")
-            destination_path = os.path.join(category_folder_path, f"{title}_{timestamp}.jpg")
-            response = requests.get(img_url, stream=True)
-            response.raise_for_status()
-            with open(destination_path, "wb") as file:
-                for chunk in response.iter_content(chunk_size=4096):
-                    file.write(chunk)
-                print(f"Image téléchargée avec succès : {destination_path}")
-    except Exception as e:
-        print(f"Erreur lors du téléchargement de l'image pour {title}: {e}")
+            try:
+                title = title.replace(":", " ").replace("/", "-").replace("&", "and").replace("*", "_").replace("?", "").replace('"', "")
+                destination_path = os.path.join(category_folder_path, f"{title}_{timestamp}.jpg")
+                response = requests.get(img_url, stream=True)
+                response.raise_for_status()
+                with open(destination_path, "wb") as file:
+                    for chunk in response.iter_content(chunk_size=4096):
+                        file.write(chunk)
+                    print(f"Image téléchargée avec succès : {destination_path}")
+            except Exception as e:
+                print(f"Erreur lors du téléchargement de l'image pour {title}: {e}")
+
 
 
 def create_csv_for_category(category_link, category_name, links_book):
