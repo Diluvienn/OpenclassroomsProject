@@ -1,6 +1,19 @@
+"""
+Module: transform.py
+
+This module provides functions for transforming raw data obtained during the extraction process.
+The transformation is designed to clean and format specific pieces of information extracted from the website.
+
+Functions:
+- transform_title(raw_title)
+- transform_availability(raw_availability)
+- transform_img_url(raw_img_url)
+"""
+
+
 def transform_title(raw_title):
     """
-    Transforms the raw title by removing extra information.
+    Transform the raw title by removing extra information.
 
     Parameters:
     - raw_title (str): The raw title of the book.
@@ -13,7 +26,7 @@ def transform_title(raw_title):
 
 def transform_availability(raw_availability):
     """
-        Transforms the raw availability information.
+        Transform the raw availability information.
 
         Parameters:
         - raw_availability (str): The raw availability information.
@@ -26,7 +39,7 @@ def transform_availability(raw_availability):
 
 def transform_img_url(raw_img_url):
     """
-    Transforms the raw image URL.
+    Transform the raw image URL.
 
     Parameters:
     - raw_img_url (str): The raw image URL.

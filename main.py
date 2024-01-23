@@ -1,3 +1,33 @@
+"""
+Main Module: main.py
+
+This module serves as the main script for scraping the website "https://books.toscrape.com/".
+It extracts book information from various categories, creates CSV files, and downloads book images.
+
+Modules Used:
+- requests
+- datetime
+- BeautifulSoup
+- urllib.parse
+- extract (Custom module for data extraction)
+- load (Custom module for data loading and image download)
+
+Variables:
+- timestamp: Timestamp for creating unique output filenames.
+- book_links: List to store book links.
+- category_links: List to store category links.
+- category_names: List to store category names.
+- base_url: Base URL of the website.
+- response: HTTP response object.
+- soup: BeautifulSoup object for HTML parsing.
+
+Functions:
+- extract_links_from_page(soup): Extracts book links from a BeautifulSoup object.
+- create_csv_for_category(category_name, book_links): Creates a CSV file for a given category.
+- download_image(titles, image_urls, category_name): Downloads book images.
+
+"""
+
 import requests
 from datetime import datetime
 from bs4 import BeautifulSoup
@@ -32,13 +62,12 @@ for category in categories_element.find_all('a'):
     category_links.append(category_link)
 
 # Suppression du premier lien qui ramène à la page d'accueil
-
 category_links.pop(0)
 category_names.pop(0)
 
 
 # Boucle dans chaque catégorie pour en extraire les liens de l'ensemble des livres
-#  Boucle sur les noms des catégorie pour nommer les fichers CSV
+#  Boucle sur les noms des catégories pour nommer les fichers CSV
 for category_link, category_name in zip(category_links, category_names):
     page_number = 1
     category_link = category_link.format(page_number)
