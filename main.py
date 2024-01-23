@@ -32,7 +32,7 @@ for category in categories_element.find_all('a'):
     category_links.append(category_link)
 
 # Suppression du premier lien qui ramène à la page d'accueil
->>>>>>> download_images
+
 category_links.pop(0)
 category_names.pop(0)
 
