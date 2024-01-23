@@ -2,9 +2,16 @@ import requests
 from bs4 import BeautifulSoup
 
 
-
-
 def extract_url(url):
+    """
+    Extrait l'URL de la page de livre
+
+    Parameters:
+    - url (str): L'URL de la page.
+
+    Returns:
+    - str: L'URL effective de la page après toutes les redirections.
+    """
     response = requests.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
     return response.url, soup
@@ -59,14 +66,11 @@ def extract_img_url(soup):
 
 def extract_book_data(url):
     """
-        Extrait les informations d'un livre à partir de l'URL spécifiée.
+    Extrait les informations d'un livre à partir de l'URL spécifiée.
 
-        Parameters:
-        - url (str): L'URL de la page.
-
-        Returns:
-        dict: Un dictionnaire contenant les informations du livre.
-        """
+    Parameters:
+    - url (str): L'URL de la page.
+    """
     product_page_url, soup = extract_url(url)
 
     universal_product_code = extract_upc(soup)
@@ -96,8 +100,7 @@ def extract_book_data(url):
     return book_data
 
 
-
-# if __name__ == "__main__":
-#     # Tester la fonction avec l'URL spécifiée
-#     url_to_test = "https://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html"
-#     extract_book_data(url_to_test)
+if __name__ == "__main__":
+    # Tester la fonction avec l'URL spécifiée
+    url_to_test = "https://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html"
+    extract_book_data(url_to_test)

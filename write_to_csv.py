@@ -13,20 +13,10 @@ headers = ["product_page_url",
 
 
 def write_to_csv(file_path, book_data):
-    """
-       Écrit les informations d'un livre dans un fichier CSV.
 
-       Parameters:
-       - file_path (str): Le chemin du fichier CSV.
-       - book_data (dict): Un dictionnaire contenant les informations du livre.
-
-       Returns:
-       None
-       """
-    with open(file_path, 'a', newline='', encoding='utf-8') as csvfile:
+    with open(file_path, 'w', newline='', encoding='utf-8') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=headers)
-        if csvfile.tell() == 0:
-            writer.writeheader()
+        writer.writeheader()
         writer.writerow(book_data)
 
 if __name__ == "__main__":
