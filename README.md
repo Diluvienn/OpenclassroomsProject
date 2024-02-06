@@ -41,7 +41,7 @@ Cela lancera le script et génèrera les dossiers :
 - csv_output (avec les csv des livres par catégorie)
 - images_output (avec les images des livres par catégorie)
 
-L'ensemble du processus prend une 10ène de minutes. 
+L'ensemble du processus prend 25 minutes. 
 Il faut indiquer à chaque itération si on veut continuer ou non (y/n).
 
 
