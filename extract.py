@@ -15,13 +15,13 @@ This module provides functions for extract
 
 """
 
-
 import requests
 from bs4 import BeautifulSoup
-from transform import transform_title, transform_availability, transform_img_url
+from transform import transform_title, transform_availability, transform_image_url
 
 image_urls = []
 titles = []
+
 
 def extract_url(url):
     """
@@ -35,7 +35,7 @@ def extract_url(url):
     """
     response = requests.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
-    return response.url, soup
+    return response.url, soup if response else "URL non valide"
 
 
 def extract_upc(soup):
@@ -52,20 +52,6 @@ def extract_upc(soup):
     return upc_element.find_next('td').text if upc_element else "UPC non trouvé"
 
 
-# def extract_title(soup):
-#     """
-#     Extracts the title of a book from the provided BeautifulSoup object.
-#
-#     Parameters:
-#     - soup (BeautifulSoup): The BeautifulSoup object of a web page.
-#
-#     Returns:
-#     str: The title of the book.
-#     """
-#     title = soup.find('title').text.split('|')[0].strip()
-#     titles.append(title)
-#     return title
-
 def extract_title(soup):
     """
     Extracts the title of a book from the provided BeautifulSoup object.
@@ -79,7 +65,7 @@ def extract_title(soup):
     raw_title = soup.find('title').text
     title = transform_title(raw_title)
     titles.append(title)
-    return title
+    return title if raw_title else "Titre non trouvé"
 
 
 def extract_price_excluding_tax(soup):
@@ -109,23 +95,6 @@ def extract_price_including_tax(soup):
     price_including_element = soup.find('th', string='Price (incl. tax)')
     return price_including_element.find_next('td').text if price_including_element else "Prix avec taxe non trouvé"
 
-
-# def extract_availability(soup):
-#     """
-#     Extracts the availability information from the provided BeautifulSoup object.
-#
-#     Parameters:
-#     - soup (BeautifulSoup): The BeautifulSoup object of a web page.
-#
-#     Returns:
-#     str: The availability information if found, otherwise "Availability information not found on the page".
-#     """
-#     available_element = soup.find('th', string='Availability')
-#     return available_element.find_next('td').text.split('(')[1].replace('available)',
-#                                                                         '') if available_element else ("Exemplaires "
-#                                                                                                        "disponibles "
-#                                                                                                        "non trouvés "
-#                                                                                                        "sur la page")
 
 def extract_availability(soup):
     """
@@ -185,21 +154,7 @@ def extract_rating(soup):
     return rating_element['class'][-1] if rating_element else "Note non trouvée"
 
 
-# def extract_img_url(soup):
-#     """
-#     Extracts the image URL from the provided BeautifulSoup object.
-#
-#     Parameters:
-#     - soup (BeautifulSoup): The BeautifulSoup object of a web page.
-#
-#     Returns:
-#     str: The image URL if found, otherwise "Image URL not found".
-#     """
-#     img_url = soup.select_one('img')['src'].replace("../..", "https://books.toscrape.com")
-#     image_urls.append(img_url)
-#     return img_url
-
-def extract_img_url(soup):
+def extract_image_url(soup):
     """
     Extracts the image URL from the provided BeautifulSoup object.
 
@@ -209,10 +164,11 @@ def extract_img_url(soup):
     Returns:
     str: The image URL if found, otherwise "Image URL not found".
     """
-    raw_img_url = soup.select_one('img')['src']
-    img_url = transform_img_url(raw_img_url)
-    image_urls.append(img_url)
-    return img_url
+    raw_image_url = soup.select_one('img')['src']
+    image_url = transform_image_url(raw_image_url)
+    image_urls.append(image_url)
+    return image_url
+
 
 def extract_book_data(url):
     """
@@ -233,7 +189,7 @@ def extract_book_data(url):
     product_description = extract_description(soup)
     category = extract_category(soup)
     review_rating = extract_rating(soup)
-    image_url = extract_img_url(soup)
+    image_url = extract_image_url(soup)
 
     book_data = {
         "product_page_url": product_page_url,
@@ -249,6 +205,7 @@ def extract_book_data(url):
     }
 
     return book_data
+
 
 def extract_links_from_page(soup):
     """
@@ -266,9 +223,9 @@ def extract_links_from_page(soup):
         a = h3.find('a')
         link_book = a['href'].replace('../../..', 'https://books.toscrape.com/catalogue')
         links_book.append(link_book)
+
     return links_book
 
-# if __name__ == "__main__":
-#     # Tester la fonction avec l'URL spécifiée
-#     url_to_test = "https://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html"
-#     extract_book_data(url_to_test)
+
+if __name__ == "__main__":
+    pass

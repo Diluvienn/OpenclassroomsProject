@@ -24,6 +24,7 @@ def transform_title(raw_title):
     transformed_title = raw_title.split('|')[0].strip()
     return transformed_title
 
+
 def transform_availability(raw_availability):
     """
         Transform the raw availability information.
@@ -35,9 +36,11 @@ def transform_availability(raw_availability):
         str: The transformed availability information.
         """
     return raw_availability.split('(')[1].replace('available)',
-                                                  '') if raw_availability else "Exemplaires disponibles non trouvés sur la page"
+                                                  '') if raw_availability else ("Exemplaires disponibles non trouvés "
+                                                                                "sur la page")
 
-def transform_img_url(raw_img_url):
+
+def transform_image_url(raw_img_url):
     """
     Transform the raw image URL.
 
@@ -48,3 +51,7 @@ def transform_img_url(raw_img_url):
     str: The transformed image URL if found, otherwise "Image URL not found".
     """
     return raw_img_url.replace("../..", "https://books.toscrape.com") if raw_img_url else "Image URL not found"
+
+
+if __name__ == "__main__":
+    pass

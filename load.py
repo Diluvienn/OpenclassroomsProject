@@ -54,7 +54,8 @@ def download_image(titles, image_urls, category_name):
 
         for title, img_url in zip(titles, image_urls):
             try:
-                title = title.replace(":", " ").replace("/", "-").replace("&", "and").replace("*", "_").replace("?", "").replace('"', "")
+                title = (title.replace(":", " ").replace("/", "-").replace("&", "and").replace("*", "_")
+                         .replace("?", "").replace('"', ""))
                 destination_path = os.path.join(category_folder_path, f"{title}_{timestamp}.jpg")
                 response = requests.get(img_url, stream=True)
                 response.raise_for_status()
@@ -64,7 +65,6 @@ def download_image(titles, image_urls, category_name):
                     print(f"Image téléchargée avec succès : {destination_path}")
             except Exception as e:
                 print(f"Erreur lors du téléchargement de l'image pour {title}: {e}")
-
 
 
 def create_csv_for_category(category_name, links_book):
@@ -105,8 +105,6 @@ def write_to_csv(file_path, book_data):
         None
        """
 
-
-
     with open(file_path, 'a', newline='', encoding='utf-8') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=headers)
         if csvfile.tell() == 0:
@@ -115,30 +113,4 @@ def write_to_csv(file_path, book_data):
 
 
 if __name__ == "__main__":
-    # Testez la fonction write_to_csv avec des données de test
-    test_data = {
-        "product_page_url": "https://example.com",
-        "universal_product_code": "123456789",
-        "title": "Test Book",
-        "price_including_tax": "20.99",
-        "price_excluding_tax": "15.99",
-        "number_available": "50",
-        "product_description": "Sample description",
-        "category": "Fiction",
-        "review_rating": "Four",
-        "image_url": "https://example.com/image.jpg"
-    }
-    csv_file_path = "test_output.csv"
-    print("Contenu de book_data:", test_data)
-    # Écrire les données de test dans le fichier CSV
-    write_to_csv(csv_file_path, test_data)
-
-    print(f"Les données ont été écrites dans {csv_file_path}.")
-    # csv_file_path = "output.csv"
-    # url_to_extract = "http://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html"
-    # write_to_csv(csv_file_path, url_to_extract)
-
-    destination_path = "img_test.jpg"
-    url = "http://books.toscrape.com/media/cache/f1/78/f17805e88aed31aae352ab250b2a379d.jpg"
-    download_image(url)
-    print(f"l'image a été enregistrée dans {destination_path}.")
+    pass
