@@ -23,7 +23,7 @@ Les images sont enregistrées en .jpeg dans des sous dossiers nommés selon la c
 Depuis le terminal :
 git clone https://github.com/Diluvienn/OpenclassroomsProject.git
 
-3. Créez un environnement virtuel
+2. Créez un environnement virtuel
 Dans le terminal :
 - cd OpenclassroomsProject
 - python -m venv venv
