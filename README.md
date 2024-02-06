@@ -19,31 +19,30 @@ Les images sont enregistrées en .jpeg dans des sous dossiers nommés selon la c
 
 ## Installation
 1. Clonez le dépot
-https://github.com/Diluvienn/OpenclassroomsProject.git
-2. Créez un environnement virtuel
 
 Depuis le terminal :
 git clone https://github.com/Diluvienn/OpenclassroomsProject.git
 
-cd OpenclassroomsProject
-
-python -m venv venv
-
-venv/Scripts/activate
+3. Créez un environnement virtuel
+Dans le terminal :
+- cd OpenclassroomsProject
+- python -m venv venv
+- venv/Scripts/activate
 
 3. Installez les dépendances 
 
 pip install -r requirements.txt
 
 ## Comment executer
+Dans le terminal :
+- python main.py
 
-python main.py
+Cela lancera le script et génèrera les dossiers :
+- csv_output (avec les csv des livres par catégorie)
+- images_output (avec les images des livres par catégorie)
 
-Cela lancera le script et génèrera les dossiers 
-
-csv_output (avec les csv des livres par catégorie)
-
-images_output (avec les images des livres par catégorie)
+L'ensemble du processus prend une 10ène de minutes. 
+Il faut indiquer à chaque itération si on veut continuer ou non (y/n).
 
 
 ## Structure du projet
@@ -61,5 +60,11 @@ Projet2/
 ├── requirements.txt
 
 ├── README.md
+
+Après execution du script ajout de :
+
+├── csv_output
+
+├── images_output
 
 
