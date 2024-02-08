@@ -15,7 +15,7 @@ Les informations récupérées sont :
 
 Ces données sont enregistrées dans des fichiers CSV par catégorie.
 Les images sont enregistrées en .jpeg dans des sous dossiers nommés selon la catégorie, dans un dossier parent 
-"Book illustrations".
+"images_output".
 
 ## Installation
 1. Clonez le dépot
